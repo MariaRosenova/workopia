@@ -10,7 +10,6 @@ function basePath($path = '')
 {
     return __DIR__ . ($path ? DIRECTORY_SEPARATOR . $path : $path);
 }
-
 /**
  * Load a view
  * @param string $name
@@ -20,6 +19,9 @@ function basePath($path = '')
 function loadView($name)
 {
     $viewPath = basePath("views/{$name}.view.php");
+
+    // inspect($viewPath);
+
     if (!file_exists($viewPath)) {
         throw new Exception("View {$name} not found at {$viewPath}");
     }
@@ -40,4 +42,31 @@ function loadPartial($name)
         throw new Exception("Partial {$name} not found at {$partialPath}");
     }
     require  $partialPath;
+}
+
+/**
+ * Inspect a value(s)
+ * @param string $value
+ * @return void  
+ */
+
+function inspect($value)
+{
+    echo '<pre>';
+    var_dump($value);
+    echo '</pre>';
+}
+
+
+/**
+ * Inspect a value(s) and die 
+ * @param string $value
+ * @return void  
+ */
+
+function inspectAndDie($value)
+{
+    echo '<pre>';
+    die(var_dump($value));
+    echo '</pre>';
 }

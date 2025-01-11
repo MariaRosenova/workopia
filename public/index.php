@@ -1,5 +1,12 @@
 <?php
-require '../helpers.php';
-require basePath('views/home.view.php');
+require '../Router.php';
 
-loadView('home');
+$router = new Router();
+
+require '../helpers.php';
+require '../routes.php';
+
+$uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
+
+$router->route($uri, $method);

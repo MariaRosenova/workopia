@@ -16,11 +16,10 @@ function basePath($path = '')
  * @return void  
  */
 
-function loadView($name)
+function loadView($name, $data = [])
 {
     $viewPath = basePath("views/{$name}.view.php");
-
-    // inspect($viewPath);
+    extract($data);
 
     if (!file_exists($viewPath)) {
         throw new Exception("View {$name} not found at {$viewPath}");

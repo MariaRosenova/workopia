@@ -4,6 +4,15 @@ class Router
 {
     protected $routes = [];
 
+    /**
+     * Add a new route
+     * 
+     * @param string $method
+     * @param string $uri
+     * @param string $controller
+     * @return boid
+     */
+
     public function registerRoute($method, $uri, $controller)
     {
         $this->routes[] = [
@@ -20,21 +29,34 @@ class Router
         exit;
     }
 
+    private function isAbsolutePath($path)
+    {
+        return preg_match('/^[a-zA-Z]:\\\\|^\//', $path);
+    }
+
+
     public function route($uri, $method)
     {
         if (empty($uri)) {
             throw new ValueError("Path cannot be empty");
         }
 
+
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === $method) {
-                require basePath($route['controller']);
+                print_r($route);
+
+                $path = $this->isAbsolutePath($route['controller']) 
+                    ? require $route['controller'] 
+                    : require basePath($route['controller']);
+
                 return;
             }
         }
         $this->error();
     }
 
+ 
     public function get($uri, $controller)
     {
         $this->registerRoute('GET', $uri, $controller);
